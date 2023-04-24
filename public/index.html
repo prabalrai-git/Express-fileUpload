@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="   
+        margin: 30px;
+        height:100vh;
+        display: flex;
+        
+
+       
+        justify-content: center; /* align item horizontally */
+        align-items: center;">
+
+        <div style="background-color: rgb(4, 125, 158);padding:60px 30px;border-radius:10px;">
+
+            <form style="align-self: center;padding:30px">
+                <h3 style="color:white">Upload file to express:</h3>
+                <label for="fn" style="color:white">first name:</label> <br>
+                <input type="text" name="fn" id="fn"> <br> <br>
+                <label for="ln" style="color:white">last name:</label> <br>
+                <input type="text" name="ln" id="ln"> <br> <br>
+                <input type="file" name="file" id="files" multiple style="color:white"> <br><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const fn = document.getElementById('fn');
+            const ln = document.getElementById('ln');
+            const files = document.getElementById('files')
+
+            const formData = new FormData();
+
+            formData.append('fn', fn.value);
+            formData.append('ln', ln.value);
+
+            for (let i = 0; i < files.files.length; i++) {
+                formData.append('files', files.files[i]);
+            }
+
+            console.log(...formData);
+            fetch('http://192.168.100.70:5000/uploads', {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+        })
+
+    </script>
+
+</body>
+
+
+</html>
